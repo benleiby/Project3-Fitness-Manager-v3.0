@@ -5,6 +5,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
 <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.project3fitnessmanagerv3.HelloController">
     <padding>
@@ -12,5 +13,7 @@
     </padding>
 
     <Label fx:id="welcomeText"/>
+    <Label text="Fitness Club Manager Application" />
     <Button text="Hello!" onAction="#onHelloButtonClick"/>
+    <TextField fx:id="firstNameTextField" promptText="Enter First Name" />
 </VBox>
