@@ -16,7 +16,7 @@ public class Profile implements Comparable <Profile> {
     public Profile() {}
 
     /**
-     * Overloaded constructor. Assigns all variables.
+     * Overloaded constructor. Initializes all instance variables.
      * @param fname Member first name.
      * @param lname Member last name.
      * @param dob Member date of birth.

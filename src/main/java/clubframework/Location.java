@@ -16,6 +16,11 @@ public enum Location {
     private final String ZIP;
     private final String COUNTY;
 
+    /**
+     * Overloaded constructor. Assigns additional constants.
+     * @param zip Studio zip code.
+     * @param county Studio county.
+     */
     Location(String zip, String county) {
         this.ZIP = zip;
         this.COUNTY = county;

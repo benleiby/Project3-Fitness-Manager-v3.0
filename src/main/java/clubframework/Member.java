@@ -16,7 +16,7 @@ public class Member implements Comparable <Member> {
     public Member() {}
 
     /**
-     * Overloaded constructor. Assigns every instance variable.
+     * Overloaded constructor. Initializes all instance variables.
      * @param profile Member profile.
      * @param expire Date of membership expiration.
      * @param homeStudio Member home studio.
