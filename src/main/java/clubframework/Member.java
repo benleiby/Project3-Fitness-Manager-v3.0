@@ -15,16 +15,23 @@ public class Member implements Comparable <Member> {
      */
     public Member() {}
 
-    /**
-     * Overloaded constructor. Initializes all instance variables.
-     * @param profile Member profile.
-     * @param expire Date of membership expiration.
-     * @param homeStudio Member home studio.
-     */
     public Member(Profile profile, Date expire, Location homeStudio) {
 
         this.profile = profile;
         this.expire = expire;
+        this.homeStudio = homeStudio;
+
+    }
+
+    /**
+     * Overloaded constructor.
+     * Initialization of expire is handled by extending classes.
+     * @param profile Member profile.
+     * @param homeStudio Member home studio.
+     */
+    public Member(Profile profile, Location homeStudio) {
+
+        this.profile = profile;
         this.homeStudio = homeStudio;
 
     }
@@ -46,7 +53,9 @@ public class Member implements Comparable <Member> {
      * @return true if the membership is expired. If not, return false.
      */
     public boolean isExpired() {
+
         return expire.isBeforeToday();
+
     }
 
     /**

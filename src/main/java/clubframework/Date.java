@@ -111,7 +111,7 @@ public class Date implements Comparable<Date> {
             return false;
         }
         int numOfDays = numOfDays(month);
-        return numOfDays != -1 && day <= numOfDays;
+        return (numOfDays != -1 && day <= numOfDays);
 
     }
 
@@ -239,41 +239,6 @@ public class Date implements Comparable<Date> {
 
     public void setDay(int day) {
         this.day = day;
-    }
-
-    /**
-     * Testbed main.
-     * @param args ...
-     */
-    public static void main(String[] args) {
-
-        Date invalidDate1 = new Date(1899, Calendar.JANUARY, 1);
-        Date invalidDate2 = new Date(2018, Calendar.FEBRUARY, 29);  // not a leap year
-        Date invalidDate3 = new Date(2003, Calendar.MARCH, 32);
-        Date invalidDate4 = new Date(1950, Calendar.APRIL, 31);
-        Date invalidDate5 = new Date(1988, Calendar.DECEMBER+1, 8);
-
-        Date validDate1 = new Date(2007, 1, 1);
-        Date validDate2 = new Date(1972, Calendar.FEBRUARY, 29);    // leap year
-
-        System.out.println("The date " + invalidDate1.toString() + " is valid?: " + invalidDate1.isValid());
-        System.out.println("The date " + invalidDate2.toString() + " is valid?: " + invalidDate2.isValid());
-        System.out.println("The date " + invalidDate3.toString() + " is valid?: " + invalidDate3.isValid());
-        System.out.println("The date " + invalidDate4.toString() + " is valid?: " + invalidDate4.isValid());
-        System.out.println("The date " + invalidDate5.toString() + " is valid?: " + invalidDate5.isValid());
-
-        System.out.println("\nThe date " + validDate1.toString() + " is valid?: " + validDate1.isValid());
-        System.out.println("The date " + validDate2.toString() + " is valid?: " + validDate2.isValid());
-
-        Date validDate = new Date(2023, 3, 8);
-
-        System.out.println(validDate.isBeforeToday());
-
-        //validDate1.setTOTim();
-         System.out.println(validDate1);
-
-        System.out.println(Calendar.getInstance().toString());
-
     }
 
 }
