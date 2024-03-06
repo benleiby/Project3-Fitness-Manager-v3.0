@@ -86,7 +86,8 @@ public class Basic extends Member {
         if (numClasses > FREE_CLASSES) {
             return RATE + (EXTRA_CLASS_CHARGE * (numClasses - FREE_CLASSES));
         }
-        return RATE;
+        else
+            return RATE;
 
     }
 

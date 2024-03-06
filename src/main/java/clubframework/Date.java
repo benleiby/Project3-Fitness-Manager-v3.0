@@ -64,7 +64,7 @@ public class Date implements Comparable<Date> {
     }
 
     /**
-     * Sets this date to m months and y years into the future.
+     * Sets this Date to m months and y years into the future.
      * @param months int the future.
      * @param years into future.
      */
