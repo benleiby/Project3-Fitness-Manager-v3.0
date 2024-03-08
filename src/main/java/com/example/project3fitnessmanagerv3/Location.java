@@ -1,4 +1,4 @@
-package clubframework;
+package com.example.project3fitnessmanagerv3;
 
 /**
  * Location information cannot be altered.

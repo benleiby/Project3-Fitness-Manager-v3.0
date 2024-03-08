@@ -1,4 +1,4 @@
-package clubframework;
+package com.example.project3fitnessmanagerv3;
 
 import java.io.File;
 import java.io.IOException;

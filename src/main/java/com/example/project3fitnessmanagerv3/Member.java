@@ -1,4 +1,4 @@
-package clubframework;
+package com.example.project3fitnessmanagerv3;
 
 /**
  * Template for all available memberships.

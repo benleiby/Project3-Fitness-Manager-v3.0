@@ -1,4 +1,4 @@
-package clubframework;
+package com.example.project3fitnessmanagerv3;
 
 /**
  * Basic membership. numClasses attended is recorded.

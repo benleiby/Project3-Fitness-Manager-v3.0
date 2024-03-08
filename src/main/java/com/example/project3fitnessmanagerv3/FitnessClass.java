@@ -1,4 +1,4 @@
-package clubframework;
+package com.example.project3fitnessmanagerv3;
 
 /**
  * Represents a fitness class, storing information such as class type, instructor,
