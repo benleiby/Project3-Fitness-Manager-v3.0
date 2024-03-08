@@ -56,18 +56,18 @@
                                           <CheckBox mnemonicParsing="false" selected="true" text="Hide Fees" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                        </children>
                                     </GridPane>
-                                    <TableView prefHeight="274.0" prefWidth="1080.0" GridPane.rowIndex="1">
+                                    <TableView fx:id="memberDisplay" prefHeight="274.0" prefWidth="1080.0" GridPane.rowIndex="1">
                                       <columns>
-                                        <TableColumn prefWidth="167.0" text="FNAME" />
-                                        <TableColumn minWidth="0.0" prefWidth="141.0" text="LNAME" />
-                                          <TableColumn prefWidth="88.0" text="DOB" />
-                                          <TableColumn prefWidth="71.0" text="EXPIRES" />
-                                          <TableColumn prefWidth="122.0" text="HOME STUDIO " />
-                                          <TableColumn prefWidth="43.0" text="ZIP" />
-                                          <TableColumn prefWidth="126.0" text="COUNTY" />
-                                          <TableColumn prefWidth="85.0" text="TYPE" />
-                                          <TableColumn prefWidth="174.0" text="INFO" />
-                                          <TableColumn prefWidth="62.0" text="($) DUE" />
+                                        <TableColumn fx:id="firstNameColumn" prefWidth="167.0" text="FNAME" />
+                                        <TableColumn fx:id="lastNameColumn" minWidth="0.0" prefWidth="141.0" text="LNAME" />
+                                          <TableColumn fx:id="dobColumn" prefWidth="88.0" text="DOB" />
+                                          <TableColumn fx:id="expiresColumn" prefWidth="71.0" text="EXPIRES" />
+                                          <TableColumn fx:id="homeStudioColumn" prefWidth="122.0" text="HOME STUDIO " />
+                                          <TableColumn fx:id="zipColumn" prefWidth="43.0" text="ZIP" />
+                                          <TableColumn fx:id="countyColumn" prefWidth="126.0" text="COUNTY" />
+                                          <TableColumn fx:id="typeColumn" prefWidth="85.0" text="TYPE" />
+                                          <TableColumn fx:id="infoColumn" prefWidth="174.0" text="INFO" />
+                                          <TableColumn fx:id="dueColumn" prefWidth="62.0" text="($) DUE" />
                                       </columns>
                                     </TableView>
                                  </children>

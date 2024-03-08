@@ -112,10 +112,9 @@ public class MemberList {
 
      /**
      * Read member information from a file and populates the member list
-     * @param file
-     * @throws IOException
+     * @param file Member list .txt file.
      */
-     public void load(File file) throws IOException {
+     public void load(File file) {
 
         try (Scanner sc = new Scanner(file)) {
             while (sc.hasNextLine()) {
