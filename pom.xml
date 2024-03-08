@@ -61,7 +61,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.example.project3fitnessmanagerv3/com.example.project3fitnessmanagerv3.HelloApplication
+                                com.example.project3fitnessmanagerv3/com.example.project3fitnessmanagerv3.StudioManagerMain
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
