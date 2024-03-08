@@ -3,9 +3,12 @@ package com.example.project3fitnessmanagerv3;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.paint.Color;
 import javafx.util.Callback;
 
 import java.io.File;
@@ -35,6 +38,8 @@ public class StudioManagerController {
     private TableColumn<Member, String> infoColumn;
     @FXML
     private TableColumn<Member, String> dueColumn;
+    @FXML
+    private CheckBox hideFeesCheckBox;
 
 
     // Backend Components
@@ -49,6 +54,11 @@ public class StudioManagerController {
 
     }
 
+    @FXML
+    public void toggleFees(ActionEvent event) {
+        dueColumn.setVisible(!hideFeesCheckBox.isSelected());
+    }
+
     /**
      * Initializes memberList structure and populates with data from memberList.txt.
      * Initializes observableMemberList and populates with data from memberList.
@@ -59,11 +69,19 @@ public class StudioManagerController {
         memberList.load(new File("src/memberList.txt"));
 
         observableMemberList = FXCollections.observableArrayList();
+        updateObservableMemberList();
+
+    }
+
+    private void updateObservableMemberList() {
+
+        observableMemberList.clear();
         for (int i = 0; i < memberList.getSize(); i++) {
             observableMemberList.add(memberList.getMembers()[i]);
         }
 
     }
+
 
     /**
      * Assigns the observableList to the memberDisplay.
@@ -82,11 +100,12 @@ public class StudioManagerController {
         createCellValueFactory(typeColumn, member -> member.getClass().getSimpleName());
         createCellValueFactory(infoColumn, member -> "Idk how to do this yet"); // IDK YET
         createCellValueFactory(dueColumn, member -> String.valueOf(member.bill()));
+        dueColumn.setVisible(false);
 
     }
 
     /**
-     * Define how the column will determine its value.
+     * Defines how a column will determine its value.
      * @param column Table column to define the behavior of.
      * @param valueExtractor Callback to get the field of an object.
      * @param <T> Type of observableList. In this case, it's Member.
@@ -96,7 +115,7 @@ public class StudioManagerController {
         column.setCellValueFactory(cellData -> {
             String value = valueExtractor.call(cellData.getValue());
             return new SimpleStringProperty(value);
-        });
+        } );
 
     }
 

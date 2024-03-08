@@ -53,7 +53,7 @@
                                           <Label text="Sorting Options: " GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                           <RadioButton mnemonicParsing="false" text="By Member Profile" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                           <RadioButton mnemonicParsing="false" text="By County, then Zip" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                          <CheckBox mnemonicParsing="false" selected="true" text="Hide Fees" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                          <CheckBox fx:id="hideFeesCheckBox" mnemonicParsing="false" onAction="#toggleFees" selected="true" text="Hide Fees" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                        </children>
                                     </GridPane>
                                     <TableView fx:id="memberDisplay" prefHeight="274.0" prefWidth="1080.0" GridPane.rowIndex="1">
