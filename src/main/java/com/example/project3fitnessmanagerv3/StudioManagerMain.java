@@ -14,26 +14,15 @@ public class StudioManagerMain extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(StudioManagerMain.class.getResource("studioManagerView.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1200, 700);
 
-
-
-
-
-
         stage.setTitle("Fitness Club Manager");
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
-
-
-
-
-
-
-
 
     }
 
     public static void main(String[] args) {
         launch();
     }
+
 }

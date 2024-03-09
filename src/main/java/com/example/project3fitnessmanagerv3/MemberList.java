@@ -165,9 +165,9 @@ public class MemberList {
     }
 
     /**
-     * Print the list of members sorted by county. NEEDS TO BE DELETED / EDITED BEFORE SUBMISSION.
+     * Sort the list of members by county, then zip code.
      */
-    public void printByCounty () {
+    public void sortByCounty () {
 
         for (int i = 0; i < size; i++) {
             for (int j = i + 1; j < size; j++) {
@@ -176,16 +176,13 @@ public class MemberList {
                 }
             }
         }
-        System.out.println("-list of members sorted by county, then zipcode-");
-        printMembers();
-        System.out.println("-end of list-");
 
     }
 
     /**
-     * Print the list of members sorted by member profile. NEEDS TO BE DELETED / EDITED BEFORE SUBMISSION.
+     * Sort the list of members by profile.
      */
-    public void printByMember() {
+    public void sortByMember() {
 
         for (int i = 0; i < size; i++) {
             for (int j = i + 1; j < size; j++) {
@@ -194,9 +191,6 @@ public class MemberList {
                 }
             }
         }
-        System.out.println("-list of members sorted by member profiles-");
-        printMembers();
-        System.out.println("-end of list-");
 
     }
 

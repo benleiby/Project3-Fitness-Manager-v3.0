@@ -7,6 +7,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -26,20 +27,20 @@
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                           </columnConstraints>
                           <rowConstraints>
-                            <RowConstraints maxHeight="467.0" minHeight="10.0" prefHeight="196.0" vgrow="SOMETIMES" />
-                            <RowConstraints maxHeight="589.0" minHeight="10.0" prefHeight="495.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="467.0" minHeight="10.0" prefHeight="314.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="589.0" minHeight="10.0" prefHeight="377.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <GridPane prefHeight="319.0" prefWidth="1080.0" GridPane.rowIndex="1">
+                              <GridPane prefHeight="331.0" prefWidth="1080.0" GridPane.rowIndex="1">
                                 <columnConstraints>
                                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                 </columnConstraints>
                                 <rowConstraints>
                                   <RowConstraints maxHeight="181.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
-                                  <RowConstraints maxHeight="481.0" minHeight="10.0" prefHeight="460.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="481.0" minHeight="10.0" prefHeight="342.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <GridPane>
+                                    <GridPane prefHeight="2.0" prefWidth="1080.0">
                                       <columnConstraints>
                                           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -50,13 +51,16 @@
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
-                                          <Label text="Sorting Options: " GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                          <RadioButton mnemonicParsing="false" text="By Member Profile" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                          <RadioButton mnemonicParsing="false" text="By County, then Zip" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                          <Label prefHeight="17.0" prefWidth="55.0" text="Sort Data:" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                          <RadioButton fx:id="sortByProfileRadio" mnemonicParsing="false" onAction="#sortDisplayByProfile" prefHeight="17.0" prefWidth="149.0" text="Sort by Member Profile" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                             <toggleGroup>
+                                                <ToggleGroup fx:id="sortMembers" />
+                                             </toggleGroup></RadioButton>
+                                          <RadioButton fx:id="sortByCountyRadio" mnemonicParsing="false" onAction="#sortDisplayByCounty" prefHeight="17.0" prefWidth="127.0" text="Sort by County, Zip" toggleGroup="$sortMembers" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                           <CheckBox fx:id="hideFeesCheckBox" mnemonicParsing="false" onAction="#toggleFees" selected="true" text="Hide Fees" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                        </children>
                                     </GridPane>
-                                    <TableView fx:id="memberDisplay" prefHeight="274.0" prefWidth="1080.0" GridPane.rowIndex="1">
+                                    <TableView fx:id="memberDisplay" prefHeight="316.0" prefWidth="1080.0" GridPane.rowIndex="1">
                                       <columns>
                                         <TableColumn fx:id="firstNameColumn" prefWidth="167.0" text="FNAME" />
                                         <TableColumn fx:id="lastNameColumn" minWidth="0.0" prefWidth="141.0" text="LNAME" />
@@ -71,15 +75,6 @@
                                       </columns>
                                     </TableView>
                                  </children>
-                              </GridPane>
-                              <GridPane>
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
                               </GridPane>
                            </children>
                         </GridPane>

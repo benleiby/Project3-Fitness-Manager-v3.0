@@ -6,9 +6,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.paint.Color;
 import javafx.util.Callback;
 
 import java.io.File;
@@ -40,6 +40,10 @@ public class StudioManagerController {
     private TableColumn<Member, String> dueColumn;
     @FXML
     private CheckBox hideFeesCheckBox;
+    @FXML
+    private RadioButton sortByProfileRadio;
+    @FXML
+    private RadioButton sortByCountyRadio;
 
 
     // Backend Components
@@ -51,6 +55,24 @@ public class StudioManagerController {
 
        initializeMemberLists();
        initializeMemberDisplay();
+
+    }
+
+    @FXML
+    public void sortDisplayByProfile(ActionEvent event) {
+
+        memberList.sortByMember();
+        updateObservableMemberList();
+        memberDisplay.setItems(observableMemberList);
+
+    }
+
+    @FXML
+    public void sortDisplayByCounty(ActionEvent event) {
+
+        memberList.sortByCounty();
+        updateObservableMemberList();
+        memberDisplay.setItems(observableMemberList);
 
     }
 
@@ -73,6 +95,11 @@ public class StudioManagerController {
 
     }
 
+    /**
+     * Clears the current observableMemberList.
+     * Copies data from memberList to observableMemberList.
+     * DOES NOT UPDATE THE DISPLAY, only the observableMemberList that it reads.
+     */
     private void updateObservableMemberList() {
 
         observableMemberList.clear();
@@ -81,7 +108,6 @@ public class StudioManagerController {
         }
 
     }
-
 
     /**
      * Assigns the observableList to the memberDisplay.
