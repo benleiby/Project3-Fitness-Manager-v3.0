@@ -63,6 +63,17 @@ public class Date implements Comparable<Date> {
 
     }
 
+    public void setDateFromPickerString(String pickerDate) {
+
+        String [] split = pickerDate.split("-");
+
+        this.year = Integer.parseInt(split[0]);
+        this.month = Integer.parseInt(split[1]);
+        this.day = Integer.parseInt(split[2]);
+        dateNum = (this.year * 10000) + (this.month * 1000) + this.day;
+
+    }
+
     /**
      * Sets this Date to m months and y years into the future.
      * @param months int the future.

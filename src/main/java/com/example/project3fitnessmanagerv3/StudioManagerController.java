@@ -1,17 +1,16 @@
 package com.example.project3fitnessmanagerv3;
 
+import javafx.application.Preloader;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.util.Callback;
 
 import java.io.File;
+import java.util.Arrays;
 
 public class StudioManagerController {
 
@@ -44,7 +43,20 @@ public class StudioManagerController {
     private RadioButton sortByProfileRadio;
     @FXML
     private RadioButton sortByCountyRadio;
-
+    @FXML
+    private TextField firstNameField;
+    @FXML
+    private TextField lastNameField;
+    @FXML
+    private DatePicker dobPicker;
+    @FXML
+    private ChoiceBox<Location> studioBox;
+    @FXML
+    private ChoiceBox<String> typeBox;
+    @FXML
+    private Button addMemberButton;
+    @FXML
+    private Button clearInputButton;
 
     // Backend Components
     private MemberList memberList;
@@ -55,6 +67,162 @@ public class StudioManagerController {
 
        initializeMemberLists();
        initializeMemberDisplay();
+
+       ObservableList<Location> locationList = FXCollections.observableArrayList(Location.values());
+       studioBox.setItems(locationList);
+
+       ObservableList<String> memberTypes = FXCollections.observableArrayList("Basic", "Family", "Premium");
+       typeBox.setItems(memberTypes);
+
+    }
+
+    @FXML
+    public void clearInput(ActionEvent event) {
+
+        firstNameField.clear();
+        lastNameField.clear();
+        dobPicker.setValue(null);
+        studioBox.setValue(null);
+        typeBox.setValue(null);
+
+    }
+
+
+    @FXML
+    public void onAddButtonClick(ActionEvent event) {
+
+        String alertContent = getAddMemberAlertContent();
+        if (!alertContent.isEmpty()) {
+            Alert errorMessage = new Alert(Alert.AlertType.ERROR);
+            errorMessage.setTitle("Failed to Create Member:");
+            errorMessage.setContentText(alertContent);
+            errorMessage.showAndWait();
+            return;
+        }
+
+        String fName = firstNameField.getText();
+        String lName = lastNameField.getText();
+
+        Date dob = new Date();
+        dob.setDateFromPickerString(dobPicker.getValue().toString());
+
+        if (!dob.isAdultDob()) {
+            Alert errorMessage = new Alert(Alert.AlertType.ERROR);
+            errorMessage.setTitle("Failed to Create Member:");
+            errorMessage.setContentText("Member must be 18 or older.");
+            errorMessage.showAndWait();
+            return;
+        }
+
+        Location homeStudio = studioBox.getValue();
+
+        Profile profile = new Profile(fName, lName, dob);
+        if (typeBox.getValue().equals("Basic")) {
+            addBasic(profile, homeStudio);
+        }
+        else if (typeBox.getValue().equals("Family")) {
+            addFamily(profile, homeStudio);
+        }
+        else
+            addPremium(profile, homeStudio);
+
+    }
+
+    private String getAddMemberAlertContent() {
+
+        String alertContent = "";
+        if (firstNameField.getText() == null || firstNameField.getText().trim().isEmpty()) {
+            alertContent += "\nFirst name field is empty.";
+        }
+        if (lastNameField.getText() == null || lastNameField.getText().trim().isEmpty()) {
+            alertContent += "\nLast name field is empty.";
+        }
+        if (dobPicker.getValue() == null) {
+            alertContent += "\nDOB field is empty.";
+        }
+        if (studioBox.getValue() == null) {
+            alertContent += "\nStudio field is empty.";
+        }
+        if (typeBox.getValue() == null) {
+            alertContent += "\nMembership type field is empty.";
+        }
+        return alertContent;
+
+    }
+
+    private void duplicateMemberError(Profile profile) {
+
+        Alert error = new Alert(Alert.AlertType.ERROR);
+        error.setTitle("Failed to Create Member:");
+        error.setContentText(
+            profile.getFname() + " " +
+            profile.getLname() + " " +
+            "is already in the member database."
+        );
+        error.showAndWait();
+
+    }
+
+    private void addBasic(Profile profile, Location homeStudio) {
+
+        if (!memberList.add(new Basic(profile, homeStudio))) {
+            duplicateMemberError(profile);
+            return;
+        }
+
+        Alert addNotification = new Alert(Alert.AlertType.INFORMATION);
+        addNotification.setTitle("Basic Member Added:");
+        addNotification.setContentText(
+            profile.getFname() + " " +
+            profile.getLname() + " " +
+            "added to member database."
+        );
+        addNotification.showAndWait();
+
+        updateObservableMemberList();
+        memberDisplay.setItems(observableMemberList);
+
+    }
+
+    private void addFamily(Profile profile, Location homeStudio) {
+
+        if (!memberList.add(new Family(profile, homeStudio))) {
+            duplicateMemberError(profile);
+            return;
+        }
+
+        Alert addNotification = new Alert(Alert.AlertType.INFORMATION);
+        addNotification.setTitle("Family Member Added:");
+        addNotification.setContentText(
+                profile.getFname() + " " +
+                profile.getLname() + " " +
+                "added to member database."
+        );
+        addNotification.showAndWait();
+
+        updateObservableMemberList();
+        memberDisplay.setItems(observableMemberList);
+
+    }
+
+    private void addPremium(Profile profile, Location homeStudio) {
+
+        if (!memberList.add(new Premium(profile, homeStudio))) {
+            duplicateMemberError(profile);
+            return;
+        }
+
+        Alert addNotification = new Alert(Alert.AlertType.INFORMATION);
+        addNotification.setTitle("Premium Member Added:");
+        addNotification.setContentText(
+            profile.getFname() + " " +
+            profile.getLname() + " " +
+            "added to member database."
+        );
+        addNotification.showAndWait();
+
+        updateObservableMemberList();
+        memberDisplay.setItems(observableMemberList);
 
     }
 
