@@ -124,7 +124,7 @@ public class StudioManagerController {
         createCellValueFactory(zipColumn, member -> member.getHomeStudio().getZip());
         createCellValueFactory(countyColumn, member -> member.getHomeStudio().getCounty());
         createCellValueFactory(typeColumn, member -> member.getClass().getSimpleName());
-        createCellValueFactory(infoColumn, member -> "Idk how to do this yet"); // IDK YET
+        createCellValueFactory(infoColumn, Member::getInfo);
         createCellValueFactory(dueColumn, member -> String.valueOf(member.bill()));
         dueColumn.setVisible(false);
 
@@ -134,7 +134,7 @@ public class StudioManagerController {
      * Defines how a column will determine its value.
      * @param column Table column to define the behavior of.
      * @param valueExtractor Callback to get the field of an object.
-     * @param <T> Type of observableList. In this case, it's Member.
+     * @param <T> Type from the observableList object. In this case, it's Member.
      */
     private <T> void createCellValueFactory(TableColumn<T, String> column, Callback<T, String> valueExtractor) {
 

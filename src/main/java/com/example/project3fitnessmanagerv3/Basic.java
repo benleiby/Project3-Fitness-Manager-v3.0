@@ -76,6 +76,13 @@ public class Basic extends Member {
         return super.toString() + ",(Basic) number of classes attended: " + numClasses;
     }
 
+    @Override
+    public String getInfo() {
+
+        return "Classes attended: " + numClasses;
+
+    }
+
     /**
      * Calculates the next due amount.
      * @return The double value of the next due amount.

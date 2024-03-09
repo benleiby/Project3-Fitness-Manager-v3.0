@@ -78,6 +78,17 @@ public class Premium extends Member {
 
     }
 
+    @Override
+    public String getInfo() {
+
+        if (!this.isExpired()) {
+            return "Guest-pass: " + guestPass;
+        }
+
+        return "Guest-pass: not eligible";
+
+    }
+
     /**
      * Calculates the next due amount.
      * @return The double value of the next due amount.

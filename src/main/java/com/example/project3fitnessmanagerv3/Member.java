@@ -122,6 +122,12 @@ public class Member implements Comparable <Member> {
         return 0.00;
     }
 
+    public String getInfo() {
+
+        return "";
+
+    }
+
     public Profile getProfile() {
         return profile;
     }
