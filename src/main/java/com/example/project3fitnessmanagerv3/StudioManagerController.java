@@ -57,6 +57,8 @@ public class StudioManagerController {
     private Button addMemberButton;
     @FXML
     private Button clearInputButton;
+    @FXML
+    private Button removeButton;
 
     // Backend Components
     private MemberList memberList;
@@ -77,6 +79,34 @@ public class StudioManagerController {
     }
 
     @FXML
+    public void onRemoveButtonClick(ActionEvent event) {
+
+        if (memberDisplay.getSelectionModel().getSelectedItem() == null) {
+            Alert removeFailure = new Alert(Alert.AlertType.ERROR);
+            removeFailure.setTitle("Failed to Remove Member:");
+            removeFailure.setContentText("Please select a member to remove.");
+            removeFailure.showAndWait();
+            return;
+        }
+
+        Member member = memberDisplay.getSelectionModel().getSelectedItem();
+
+        Alert removeConfirmation = new Alert(Alert.AlertType.CONFIRMATION);
+        removeConfirmation.setTitle("Confirm Member Removal:");
+        removeConfirmation.setContentText(
+                "Are you sure you want to remove " +
+                member.getProfile().getFname() + " " + member.getProfile().getLname() + "?"
+        );
+        removeConfirmation.showAndWait();
+        if (removeConfirmation.getResult().getText().equals("OK")) {
+            memberList.remove(member);
+            updateObservableMemberList();
+            memberDisplay.setItems(observableMemberList);
+        }
+
+    }
+
+    @FXML
     public void clearInput(ActionEvent event) {
 
         firstNameField.clear();
@@ -86,7 +116,6 @@ public class StudioManagerController {
         typeBox.setValue(null);
 
     }
-
 
     @FXML
     public void onAddButtonClick(ActionEvent event) {
