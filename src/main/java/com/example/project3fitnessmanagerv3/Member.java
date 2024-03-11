@@ -1,4 +1,4 @@
-package clubframework;
+package com.example.project3fitnessmanagerv3;
 
 /**
  * Template for all available memberships.
@@ -120,6 +120,12 @@ public class Member implements Comparable <Member> {
      */
     public double bill() {
         return 0.00;
+    }
+
+    public String getInfo() {
+
+        return "";
+
     }
 
     public Profile getProfile() {

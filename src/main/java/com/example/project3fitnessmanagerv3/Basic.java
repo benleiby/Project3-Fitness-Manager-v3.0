@@ -1,4 +1,4 @@
-package clubframework;
+package com.example.project3fitnessmanagerv3;
 
 /**
  * Basic membership. numClasses attended is recorded.
@@ -74,6 +74,13 @@ public class Basic extends Member {
     @Override
     public String toString() {
         return super.toString() + ",(Basic) number of classes attended: " + numClasses;
+    }
+
+    @Override
+    public String getInfo() {
+
+        return "Classes attended: " + numClasses;
+
     }
 
     /**

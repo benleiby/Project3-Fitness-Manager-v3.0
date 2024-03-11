@@ -1,4 +1,4 @@
-package clubframework;
+package com.example.project3fitnessmanagerv3;
 
 /**
  * Family membership.
@@ -75,6 +75,17 @@ public class Family extends Member {
         }
 
         return super.toString() + ",(Family) guest-pass remaining: not eligible";
+
+    }
+
+    @Override
+    public String getInfo() {
+
+        if (!this.isExpired()) {
+            return  "Guest-pass: " + (guest ? 1 : 0);
+        }
+
+        return  "Guest-pass: not eligible";
 
     }
 

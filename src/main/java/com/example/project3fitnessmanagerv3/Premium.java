@@ -1,4 +1,4 @@
-package clubframework;
+package com.example.project3fitnessmanagerv3;
 
 /**
  * Premium membership.
@@ -75,6 +75,17 @@ public class Premium extends Member {
         }
 
         return super.toString() + ",(Premium) guest-pass remaining: not eligible";
+
+    }
+
+    @Override
+    public String getInfo() {
+
+        if (!this.isExpired()) {
+            return "Guest-pass: " + guestPass;
+        }
+
+        return "Guest-pass: not eligible";
 
     }
 

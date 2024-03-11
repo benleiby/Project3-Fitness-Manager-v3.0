@@ -1,4 +1,4 @@
-package clubframework;
+package com.example.project3fitnessmanagerv3;
 import java.util.Calendar;
 
 /**
@@ -59,6 +59,17 @@ public class Date implements Comparable<Date> {
         this.month = Integer.parseInt(split[0]);
         this.day = Integer.parseInt(split[1]);
         this.year = Integer.parseInt(split[2]);
+        dateNum = (this.year * 10000) + (this.month * 1000) + this.day;
+
+    }
+
+    public void setDateFromPickerString(String pickerDate) {
+
+        String [] split = pickerDate.split("-");
+
+        this.year = Integer.parseInt(split[0]);
+        this.month = Integer.parseInt(split[1]);
+        this.day = Integer.parseInt(split[2]);
         dateNum = (this.year * 10000) + (this.month * 1000) + this.day;
 
     }
