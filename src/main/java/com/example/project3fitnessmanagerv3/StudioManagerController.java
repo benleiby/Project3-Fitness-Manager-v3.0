@@ -1,6 +1,5 @@
 package com.example.project3fitnessmanagerv3;
 
-import javafx.application.Preloader;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.util.Callback;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 
 public class StudioManagerController {
@@ -59,13 +59,58 @@ public class StudioManagerController {
     private Button clearInputButton;
     @FXML
     private Button removeButton;
+    @FXML
+    private TextField addFirstNameField;
+    @FXML
+    private TextField addLastNameField;
+    @FXML
+    private DatePicker addDobPicker;
+
+    @FXML
+    private TableView<FitnessClass> attendanceTable;
+    private Schedule schedule;
+    private ObservableList<FitnessClass> observableAttendanceList;
+    @FXML
+    private TableColumn<FitnessClass, String> classInfoColumn;
+    @FXML
+    private TableColumn<FitnessClass, String> instructorColumn;
+    @FXML
+    private TableColumn<FitnessClass, String> timeColumn;
+    @FXML
+    private TableColumn<FitnessClass, String> studioColumn;
+    @FXML
+    private ChoiceBox<Offer> classTypeBox;
+    @FXML
+    private ChoiceBox<Location> studioBoxAtt;
+    @FXML
+    private ChoiceBox<Instructor> instructorBox;
+    @FXML
+    private TableView<Member> memberAttendanceTable;
+    @FXML
+    private TableColumn<Member, String> firstNameAttColumn;
+    @FXML
+    private TableColumn<Member, String> lastNameAttColumn;
+    @FXML
+    private TableColumn<Member, String> dobAttColumn;
+    @FXML
+    private TextField firstNameFieldAtt;
+    @FXML
+    private TextField lastNameAttField;
+    @FXML
+    private DatePicker dobPickerAtt;
+    @FXML
+    private Button addMemberAttButton;
+
+
 
     // Backend Components
     private MemberList memberList;
     private ObservableList<Member> observableMemberList;
 
+
+
     @FXML
-    public void initialize() {
+    public void initialize() throws IOException {
 
        initializeMemberLists();
        initializeMemberDisplay();
@@ -75,6 +120,10 @@ public class StudioManagerController {
 
        ObservableList<String> memberTypes = FXCollections.observableArrayList("Basic", "Family", "Premium");
        typeBox.setItems(memberTypes);
+
+       initializeAttendance();
+       initializeAttendanceLists();
+       initializeAttendanceDisplay();
 
     }
 
@@ -340,6 +389,99 @@ public class StudioManagerController {
             return new SimpleStringProperty(value);
         } );
 
+    }
+
+    @FXML
+    public void initializeAttendance() throws IOException {
+
+        ObservableList<Offer> offerList = FXCollections.observableArrayList(Offer.values());
+        classTypeBox.setItems(offerList);
+
+        ObservableList<Instructor> instructorList = FXCollections.observableArrayList(Instructor.values());
+        instructorBox.setItems(instructorList);
+
+        ObservableList<Location> locationList = FXCollections.observableArrayList(Location.values());
+        studioBoxAtt.setItems(locationList);
+
+    }
+
+    private void initializeAttendanceLists() throws IOException {
+        schedule = new Schedule();
+        schedule.load(new File("src/classSchedule.txt"));
+
+        observableAttendanceList = FXCollections.observableArrayList();
+        updateObservableAttendanceList();
+    }
+
+    private void updateObservableAttendanceList() {
+        observableAttendanceList.clear();
+        observableAttendanceList.addAll(Arrays.asList(schedule.getClasses()));
+    }
+
+    private void initializeAttendanceDisplay() {
+        attendanceTable.setItems(observableAttendanceList);
+
+        createCellValueFactory(classInfoColumn, schedule -> schedule.getClassInfo().toString());
+        createCellValueFactory(instructorColumn, schedule -> schedule.getInstructor().toString());
+        createCellValueFactory(timeColumn, schedule -> schedule.getTime().toString());
+        createCellValueFactory(studioColumn, schedule -> schedule.getStudio().toString());
+
+        memberAttendanceTable.setVisible(false);
+        createCellValueFactory(firstNameAttColumn, member -> member.getProfile().getFname());
+        createCellValueFactory(lastNameAttColumn, member -> member.getProfile().getLname());
+        createCellValueFactory(dobAttColumn, member -> member.getProfile().getDob().toString());
+
+        attendanceTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                memberAttendanceTable.setVisible(true);
+                updateMemberAttendanceTable(newSelection);
+            } else {
+                memberAttendanceTable.setVisible(false);
+            }
+        });
+    }
+
+    private void updateMemberAttendanceTable(FitnessClass selectedClass) {
+        memberAttendanceTable.getItems().clear();
+        memberAttendanceTable.getItems().addAll(selectedClass.getMembers().getMembers());
+    }
+
+    @FXML
+    private void onAddMemberAttButtonClick(ActionEvent event) {
+        String fname = firstNameFieldAtt.getText();
+        String lname = lastNameAttField.getText();
+
+        Date dob = new Date();
+        dob.setDateFromPickerString(dobPickerAtt.getValue().toString());
+
+        if (!dob.isAdultDob()) {
+            Alert errorMessage = new Alert(Alert.AlertType.ERROR);
+            errorMessage.setTitle("Failed to Create Member:");
+            errorMessage.setContentText("Member must be 18 or older.");
+            errorMessage.showAndWait();
+            return;
+        }
+        Profile profile = new Profile(fname, lname, dob);
+        Member member = new Member(profile, null, null);
+        memberAttendanceTable.getItems().add(member);
+
+        firstNameFieldAtt.clear();
+        lastNameAttField.clear();
+        dobPickerAtt.setValue(null);
+
+//        if (!memberAttendanceTable.add(member) {
+//            duplicateMemberError(profile);
+//            return;
+//        }
+//
+//        Alert addNotification = new Alert(Alert.AlertType.INFORMATION);
+//        addNotification.setTitle("Basic Member Added:");
+//        addNotification.setContentText(
+//                profile.getFname() + " " +
+//                        profile.getLname() + " " +
+//                        "added to member database."
+//        );
+//        addNotification.showAndWait();
     }
 
 }
