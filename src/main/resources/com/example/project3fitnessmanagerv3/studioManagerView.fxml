@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
@@ -18,113 +19,160 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project3fitnessmanagerv3.StudioManagerController">
-   <children>
-      <TabPane prefHeight="838.0" prefWidth="1080.0" tabClosingPolicy="UNAVAILABLE">
-        <tabs>
-          <Tab text="Manage Members">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints maxHeight="467.0" minHeight="10.0" prefHeight="314.0" vgrow="SOMETIMES" />
-                            <RowConstraints maxHeight="589.0" minHeight="10.0" prefHeight="377.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
-                           <children>
-                              <GridPane prefHeight="331.0" prefWidth="1080.0" GridPane.rowIndex="1">
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints maxHeight="181.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
-                                  <RowConstraints maxHeight="481.0" minHeight="10.0" prefHeight="342.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
-                                 <children>
-                                    <GridPane prefHeight="2.0" prefWidth="1080.0">
-                                      <columnConstraints>
-                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+    <children>
+        <TabPane prefHeight="838.0" prefWidth="1080.0" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab text="Manage Members">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <columnConstraints>
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                      </columnConstraints>
-                                      <rowConstraints>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                      </rowConstraints>
-                                       <children>
-                                          <Label prefHeight="17.0" prefWidth="55.0" scaleX="1.25" scaleY="1.25" scaleZ="1.25" text="Sort Data:" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                          <RadioButton fx:id="sortByProfileRadio" mnemonicParsing="false" onAction="#sortDisplayByProfile" prefHeight="17.0" prefWidth="149.0" scaleX="1.25" scaleY="1.25" scaleZ="1.25" text="Sort by Member Profile" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                                             <toggleGroup>
-                                                <ToggleGroup fx:id="sortMembers" />
-                                             </toggleGroup></RadioButton>
-                                          <RadioButton fx:id="sortByCountyRadio" mnemonicParsing="false" onAction="#sortDisplayByCounty" prefHeight="17.0" prefWidth="127.0" scaleX="1.25" scaleY="1.25" scaleZ="1.25" text="Sort by County, Zip" toggleGroup="$sortMembers" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                          <CheckBox fx:id="hideFeesCheckBox" mnemonicParsing="false" onAction="#toggleFees" scaleX="1.25" scaleY="1.25" scaleZ="1.25" selected="true" text="Hide Fees" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                       </children>
-                                    </GridPane>
-                                    <TableView fx:id="memberDisplay" prefHeight="316.0" prefWidth="1080.0" GridPane.rowIndex="1">
-                                      <columns>
-                                        <TableColumn fx:id="firstNameColumn" prefWidth="121.0" text="FNAME" />
-                                        <TableColumn fx:id="lastNameColumn" minWidth="0.0" prefWidth="109.0" text="LNAME" />
-                                          <TableColumn fx:id="dobColumn" prefWidth="124.0" text="DOB" />
-                                          <TableColumn fx:id="expiresColumn" prefWidth="113.0" text="EXPIRES" />
-                                          <TableColumn fx:id="homeStudioColumn" prefWidth="122.0" text="HOME STUDIO " />
-                                          <TableColumn fx:id="zipColumn" prefWidth="43.0" text="ZIP" />
-                                          <TableColumn fx:id="countyColumn" prefWidth="126.0" text="COUNTY" />
-                                          <TableColumn fx:id="typeColumn" prefWidth="85.0" text="TYPE" />
-                                          <TableColumn fx:id="infoColumn" prefWidth="141.0" text="INFO" />
-                                          <TableColumn fx:id="dueColumn" prefWidth="95.0" text="($) DUE" />
-                                      </columns>
-                                    </TableView>
-                                 </children>
-                              </GridPane>
-                              <GridPane prefHeight="5.0" prefWidth="459.0">
-                                <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
-                                 <children>
-                                    <Label prefHeight="17.0" prefWidth="66.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="First Name :" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                    <TextField fx:id="firstNameField" maxWidth="194.0" prefHeight="14.0" prefWidth="240.0" scaleX="1.5" scaleY="1.5" scaleZ="1.5" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                    <Label prefHeight="17.0" prefWidth="66.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="Last Name : " GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                                    <TextField fx:id="lastNameField" maxWidth="194.0" scaleX="1.5" scaleY="1.5" scaleZ="1.5" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                                    <Label prefHeight="17.0" prefWidth="66.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="DOB :" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-                                    <DatePicker fx:id="dobPicker" prefHeight="25.0" prefWidth="107.0" scaleX="1.5" scaleY="1.5" scaleZ="1.5" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-                                    <Label prefHeight="17.0" prefWidth="93.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="Studio :" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-                                    <ChoiceBox fx:id="studioBox" prefHeight="25.0" prefWidth="106.0" scaleX="1.5" scaleY="1.5" scaleZ="1.5" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-                                    <Button fx:id="addMemberButton" mnemonicParsing="false" onAction="#onAddButtonClick" prefHeight="25.0" prefWidth="88.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="Add Member" textFill="#79cd4c" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                                    <Label prefHeight="17.0" prefWidth="91.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="Member Type : " GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.valignment="CENTER" />
-                                    <ChoiceBox fx:id="typeBox" prefHeight="25.0" prefWidth="130.0" scaleX="1.5" scaleY="1.5" scaleZ="1.5" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                    <Button fx:id="clearInputButton" mnemonicParsing="false" onAction="#clearInput" prefHeight="25.0" prefWidth="75.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="Clear Input" textFill="#2772bc" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                                    <Button fx:id="removeButton" mnemonicParsing="false" onAction="#onRemoveButtonClick" prefHeight="25.0" prefWidth="107.0" scaleX="1.5" scaleY="1.5" scaleZ="1.5" text="Remove Selected" textFill="#d71a1a" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
-                                       <GridPane.margin>
-                                          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                                       </GridPane.margin>
-                                    </Button>
-                                 </children>
-                              </GridPane>
-                           </children>
-                        </GridPane>
-                     </children>
-                  </AnchorPane>
-            </content>
-          </Tab>
-            <Tab text="Class Schedule">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-               </content>
-            </Tab>
-        </tabs>
-      </TabPane>
-   </children>
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints maxHeight="467.0" minHeight="10.0" prefHeight="314.0" vgrow="SOMETIMES" />
+                                        <RowConstraints maxHeight="589.0" minHeight="10.0" prefHeight="377.0" vgrow="SOMETIMES" />
+                                    </rowConstraints>
+                                    <children>
+                                        <GridPane prefHeight="331.0" prefWidth="1080.0" GridPane.rowIndex="1">
+                                            <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                                <RowConstraints maxHeight="181.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="481.0" minHeight="10.0" prefHeight="342.0" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                            <children>
+                                                <GridPane prefHeight="2.0" prefWidth="1080.0">
+                                                    <columnConstraints>
+                                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                    </columnConstraints>
+                                                    <rowConstraints>
+                                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                    </rowConstraints>
+                                                    <children>
+                                                        <Label prefHeight="17.0" prefWidth="55.0" scaleX="1.25" scaleY="1.25" scaleZ="1.25" text="Sort Data:" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                                        <RadioButton fx:id="sortByProfileRadio" mnemonicParsing="false" onAction="#sortDisplayByProfile" prefHeight="17.0" prefWidth="149.0" scaleX="1.25" scaleY="1.25" scaleZ="1.25" text="Sort by Member Profile" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                                            <toggleGroup>
+                                                                <ToggleGroup fx:id="sortMembers" />
+                                                            </toggleGroup></RadioButton>
+                                                        <RadioButton fx:id="sortByCountyRadio" mnemonicParsing="false" onAction="#sortDisplayByCounty" prefHeight="17.0" prefWidth="127.0" scaleX="1.25" scaleY="1.25" scaleZ="1.25" text="Sort by County, Zip" toggleGroup="$sortMembers" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                                        <CheckBox fx:id="hideFeesCheckBox" mnemonicParsing="false" onAction="#toggleFees" scaleX="1.25" scaleY="1.25" scaleZ="1.25" selected="true" text="Hide Fees" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                                    </children>
+                                                </GridPane>
+                                                <TableView fx:id="memberDisplay" prefHeight="316.0" prefWidth="1080.0" GridPane.rowIndex="1">
+                                                    <columns>
+                                                        <TableColumn fx:id="firstNameColumn" prefWidth="121.0" text="FNAME" />
+                                                        <TableColumn fx:id="lastNameColumn" minWidth="0.0" prefWidth="109.0" text="LNAME" />
+                                                        <TableColumn fx:id="dobColumn" prefWidth="124.0" text="DOB" />
+                                                        <TableColumn fx:id="expiresColumn" prefWidth="113.0" text="EXPIRES" />
+                                                        <TableColumn fx:id="homeStudioColumn" prefWidth="122.0" text="HOME STUDIO " />
+                                                        <TableColumn fx:id="zipColumn" prefWidth="43.0" text="ZIP" />
+                                                        <TableColumn fx:id="countyColumn" prefWidth="126.0" text="COUNTY" />
+                                                        <TableColumn fx:id="typeColumn" prefWidth="85.0" text="TYPE" />
+                                                        <TableColumn fx:id="infoColumn" prefWidth="141.0" text="INFO" />
+                                                        <TableColumn fx:id="dueColumn" prefWidth="95.0" text="($) DUE" />
+                                                    </columns>
+                                                </TableView>
+                                            </children>
+                                        </GridPane>
+                                        <GridPane prefHeight="5.0" prefWidth="459.0">
+                                            <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                            <children>
+                                                <Label prefHeight="17.0" prefWidth="66.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="First Name :" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                                <TextField fx:id="firstNameField" maxWidth="194.0" prefHeight="14.0" prefWidth="240.0" scaleX="1.5" scaleY="1.5" scaleZ="1.5" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                                <Label prefHeight="17.0" prefWidth="66.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="Last Name : " GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                                <TextField fx:id="lastNameField" maxWidth="194.0" scaleX="1.5" scaleY="1.5" scaleZ="1.5" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                                <Label prefHeight="17.0" prefWidth="66.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="DOB :" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                                                <DatePicker fx:id="dobPicker" prefHeight="25.0" prefWidth="107.0" scaleX="1.5" scaleY="1.5" scaleZ="1.5" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                                                <Label prefHeight="17.0" prefWidth="93.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="Studio :" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                                                <ChoiceBox fx:id="studioBox" prefHeight="25.0" prefWidth="106.0" scaleX="1.5" scaleY="1.5" scaleZ="1.5" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                                                <Button fx:id="addMemberButton" mnemonicParsing="false" onAction="#onAddButtonClick" prefHeight="25.0" prefWidth="88.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="Add Member" textFill="#79cd4c" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                                <Label prefHeight="17.0" prefWidth="91.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="Member Type : " GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.valignment="CENTER" />
+                                                <ChoiceBox fx:id="typeBox" prefHeight="25.0" prefWidth="130.0" scaleX="1.5" scaleY="1.5" scaleZ="1.5" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                                <Button fx:id="clearInputButton" mnemonicParsing="false" onAction="#clearInput" prefHeight="25.0" prefWidth="75.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="Clear Input" textFill="#2772bc" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                                <Button fx:id="removeButton" mnemonicParsing="false" onAction="#onRemoveButtonClick" prefHeight="25.0" prefWidth="107.0" scaleX="1.5" scaleY="1.5" scaleZ="1.5" text="Remove Selected" textFill="#d71a1a" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                                                    <GridPane.margin>
+                                                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                                    </GridPane.margin>
+                                                </Button>
+                                            </children>
+                                        </GridPane>
+                                    </children>
+                                </GridPane>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab text="Class Attendance">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <ButtonBar buttonMinWidth="120.0" layoutX="71.0" layoutY="364.0" prefHeight="40.0" prefWidth="200.0" />
+                                <DatePicker fx:id="attDobPicker" layoutX="100.0" layoutY="207.0" prefHeight="30.0" prefWidth="109.0" promptText="date of birth" scaleX="1.5" scaleY="1.5" scaleZ="1.5" />
+                                <Label layoutX="235.0" layoutY="42.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="Member : ">
+                                    <font>
+                                        <Font size="24.0" />
+                                    </font></Label>
+                                <TextField fx:id="attFirstNameField" layoutX="108.0" layoutY="130.0" prefHeight="30.0" promptText="first name" scaleX="1.5" scaleY="1.5" scaleZ="1.5" />
+                                <TextField fx:id="attLastNameField" layoutX="358.0" layoutY="130.0" prefHeight="30.0" promptText="last name" scaleX="1.5" scaleY="1.5" scaleZ="1.5" />
+                                <TableView fx:id="classesDisplay" layoutY="381.0" onMouseClicked="#displaySelectedAttendance" prefHeight="310.0" prefWidth="543.0">
+                                    <columns>
+                                        <TableColumn fx:id="classInfoColumn" prefWidth="140.0" text="CLASS TYPE" />
+                                        <TableColumn fx:id="instructorColumn" prefWidth="140.0" text="INSTRUCTOR" />
+                                        <TableColumn fx:id="attStudioColumn" prefWidth="150.0" text="LOCATION" />
+                                        <TableColumn fx:id="timeColumn" prefWidth="111.999989827474" text="TIME" />
+                                    </columns>
+                                </TableView>
+                                <Button fx:id="addMemberAttButton" layoutX="619.0" layoutY="122.0" maxWidth="152.0" mnemonicParsing="false" onAction="#onAttendButtonClick" prefHeight="50.0" prefWidth="132.0" scaleX="1.5" scaleY="1.5" scaleZ="1.5" text="Add Member" textFill="#79cd4c">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                </Button>
+                                <Button fx:id="attGuestButton" layoutX="866.0" layoutY="128.0" mnemonicParsing="false" onAction="#onAttendGuestClick" prefHeight="50.0" prefWidth="137.0" scaleX="1.5" scaleY="1.5" scaleZ="1.5" text="Add Guest" textFill="#79cd4c">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                </Button>
+                                <Button fx:id="attRemoveButton" layoutX="858.0" layoutY="254.0" mnemonicParsing="false" onAction="#onRemoveAttendanceClick" prefHeight="50.0" prefWidth="144.0" scaleX="1.5" scaleY="1.5" scaleZ="1.5" text="Remove Selected" textFill="#d71a1a">
+                                    <font>
+                                        <Font size="16.0" />
+                                    </font>
+                                </Button>
+                                <TableView fx:id="attendanceDisplay" layoutX="540.0" layoutY="381.0" prefHeight="309.0" prefWidth="535.0">
+                                    <columns>
+                                        <TableColumn fx:id="attFirstNameColumn" prefWidth="120.0" text="FNAME" />
+                                        <TableColumn fx:id="attLastNameColumn" prefWidth="120.0" text="LNAME" />
+                                        <TableColumn fx:id="attDobColumn" prefWidth="120.0" text="DOB" />
+                                    </columns>
+                                </TableView>
+                        <Button fx:id="attClearInputButton" layoutX="624.0" layoutY="251.0" maxWidth="152.0" mnemonicParsing="false" onAction="#attClearInput" prefHeight="50.0" prefWidth="131.0" scaleX="1.5" scaleY="1.5" scaleZ="1.5" text="Clear Input" textFill="#4e98cc">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Button>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </children>
 </VBox>

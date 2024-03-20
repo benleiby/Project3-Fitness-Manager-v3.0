@@ -83,9 +83,8 @@ public class Schedule {
     /**
      * Reads fitness class information from a file and populates the classes list
      * @param file
-     * @throws IOException
      */
-    public void load(File file) throws IOException {
+    public void load(File file) {
         FitnessClass[] tempClasses = new FitnessClass[10];
         try (Scanner sc = new Scanner(file)) {
             while (sc.hasNextLine()) {

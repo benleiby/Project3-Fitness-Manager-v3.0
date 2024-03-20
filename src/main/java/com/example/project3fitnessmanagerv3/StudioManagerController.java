@@ -1,16 +1,15 @@
 package com.example.project3fitnessmanagerv3;
 
-import javafx.application.Preloader;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 
 import java.io.File;
-import java.util.Arrays;
 
 public class StudioManagerController {
 
@@ -59,16 +58,55 @@ public class StudioManagerController {
     private Button clearInputButton;
     @FXML
     private Button removeButton;
+    @FXML
+    private TableView<FitnessClass> classesDisplay;
+    @FXML
+    private TableColumn<FitnessClass, String> classInfoColumn;
+    @FXML
+    private TableColumn<FitnessClass, String> instructorColumn;
+    @FXML
+    private TableColumn<FitnessClass, String> attStudioColumn;
+    @FXML
+    private TableColumn<FitnessClass, String> timeColumn;
+    @FXML
+    private TableView<Member> attendanceDisplay;
+    @FXML
+    private TableColumn<Member, String> attFirstNameColumn;
+    @FXML
+    private TableColumn<Member, String> attLastNameColumn;
+    @FXML
+    private TableColumn<Member, String> attDobColumn;
+    @FXML
+    private TextField attFirstNameField;
+    @FXML
+    private TextField attLastNameField;
+    @FXML
+    private DatePicker attDobPicker;
+    @FXML
+    private Button attClearInputButton;
+    @FXML
+    private Button attGuestButton;
+    @FXML
+    private Button attRemoveButton;
 
     // Backend Components
     private MemberList memberList;
+    private Schedule schedule;
+
     private ObservableList<Member> observableMemberList;
+    private ObservableList<FitnessClass> observableClassList;
+    private ObservableList<Member> observableAttendanceList;
 
     @FXML
     public void initialize() {
 
        initializeMemberLists();
        initializeMemberDisplay();
+
+       initializeSchedule();
+       initializeClassesDisplay();
+
+       initializeAttendanceDisplay();
 
        ObservableList<Location> locationList = FXCollections.observableArrayList(Location.values());
        studioBox.setItems(locationList);
@@ -107,6 +145,67 @@ public class StudioManagerController {
     }
 
     @FXML
+    public void onRemoveAttendanceClick() {
+
+        if (attendanceDisplay.getSelectionModel().getSelectedItem() == null) {
+            Alert removeFailure = new Alert(Alert.AlertType.ERROR);
+            removeFailure.setTitle("Failed to Un-Attend:");
+            removeFailure.setContentText("Please select a member to remove from the class.");
+            removeFailure.showAndWait();
+            return;
+        }
+
+        Member member = attendanceDisplay.getSelectionModel().getSelectedItem();
+        Member mainMember = null;
+        FitnessClass fitClass = classesDisplay.getSelectionModel().getSelectedItem();
+
+        if (memberList.find(member) == -1) {
+
+            if (member.getClass().equals(Family.class)) {
+                String fName = member.getProfile().getFname().split(" ")[0];
+                Profile profile = new Profile(fName, member.getProfile().getLname(), member.getProfile().getDob());
+                mainMember = new Family(profile, member.getHomeStudio());
+                mainMember = memberList.getMembers()[memberList.find(mainMember)];
+                System.out.println(mainMember.toString());
+            }
+            if (member.getClass().equals(Premium.class)) {
+                String fName = member.getProfile().getFname().split(" ")[0];
+                Profile profile = new Profile(fName, member.getProfile().getLname(), member.getProfile().getDob());
+                mainMember = new Premium(profile, member.getHomeStudio());
+                mainMember = memberList.getMembers()[memberList.find(mainMember)];
+            }
+
+        }
+
+        Alert removeConfirmation = new Alert(Alert.AlertType.CONFIRMATION);
+        removeConfirmation.setTitle("Confirm Un-Attend Member:");
+        removeConfirmation.setContentText(
+            "Are you sure you want to remove " +
+            member.getProfile().getFname() + " " + member.getProfile().getLname()
+            + " from " + fitClass.toString() +" ?"
+        );
+        removeConfirmation.showAndWait();
+        if (removeConfirmation.getResult().getText().equals("OK")) {
+            fitClass.getMembers().remove(member);
+
+            if (mainMember != null && member.getClass().equals(Family.class)) {
+                ((Family) mainMember).setGuest(true);
+                memberList.getMembers()[memberList.find(mainMember)] = mainMember;
+            }
+            if (mainMember != null && member.getClass().equals(Premium.class)) {
+                ((Premium) mainMember).setGuestPass(((Premium) mainMember).getGuestPass() + 1);
+                memberList.getMembers()[memberList.find(mainMember)] = mainMember;
+            }
+
+            updateObservableMemberList();
+            memberDisplay.setItems(observableMemberList);
+            updateObservableAttendanceList(fitClass);
+            attendanceDisplay.setItems(observableAttendanceList);
+        }
+
+    }
+
+    @FXML
     public void clearInput(ActionEvent event) {
 
         firstNameField.clear();
@@ -114,6 +213,15 @@ public class StudioManagerController {
         dobPicker.setValue(null);
         studioBox.setValue(null);
         typeBox.setValue(null);
+
+    }
+
+    @FXML
+    public void attClearInput(ActionEvent event) {
+
+        attFirstNameField.clear();
+        attLastNameField.clear();
+        attDobPicker.setValue(null);
 
     }
 
@@ -157,6 +265,171 @@ public class StudioManagerController {
 
     }
 
+    @FXML
+    public void onAttendButtonClick(ActionEvent event) {
+
+        String alertContent = getAttendMemberAlertContent();
+        if (!alertContent.isEmpty()) {
+            Alert errorMessage = new Alert(Alert.AlertType.ERROR);
+            errorMessage.setTitle("Failed to Attend Member:");
+            errorMessage.setContentText(alertContent);
+            errorMessage.showAndWait();
+            return;
+        }
+
+        String fName = attFirstNameField.getText();
+        String lName = attLastNameField.getText();
+        FitnessClass fitClass = classesDisplay.getSelectionModel().getSelectedItem();
+
+        Date dob = new Date();
+        dob.setDateFromPickerString(attDobPicker.getValue().toString());
+
+        Member member = new Member();
+        member.setProfile(new Profile(fName, lName, dob));
+
+        Alert errorMessage = new Alert(Alert.AlertType.ERROR);
+        errorMessage.setTitle("Failed to Attend Member:");
+
+        if (memberList.find(member) == -1) {
+            errorMessage.setContentText("Member is not in the database");
+            errorMessage.showAndWait();
+            return;
+        }
+        member = memberList.getMembers()[memberList.find(member)];
+        if (member.isExpired()) {
+            errorMessage.setContentText("Membership expired on " + member.getExpire() + ".");
+            errorMessage.showAndWait();
+            return;
+        }
+        if (member.getClass().equals(Basic.class) && member.getHomeStudio() != fitClass.getStudio()) {
+            errorMessage.setContentText("Member can only attend at their home studio.");
+            errorMessage.showAndWait();
+            return;
+        }
+
+        for (int i = 0; i < schedule.getClasses().length; i++) {
+            if (schedule.getClasses()[i].getTime().equals(fitClass.getTime())) {
+                // check if member is on list.
+                if (schedule.getClasses()[i].getMembers().find(member) != -1) {
+                    errorMessage.setContentText("Time conflict: member is already" +
+                            " attending a class at this time.");
+                    errorMessage.showAndWait();
+                    return;
+                }
+            }
+        }
+
+        if (!fitClass.getMembers().add(member)) {
+            errorMessage.setContentText("Member is already attending this class.");
+            errorMessage.showAndWait();
+            return;
+        }
+
+        Alert addNotification = new Alert(Alert.AlertType.INFORMATION);
+        addNotification.setTitle("Attendance Recorded:");
+        addNotification.setContentText(
+            member.getProfile().getFname() + " " +
+            member.getProfile().getLname() +
+            " added to " + fitClass.toString()
+        );
+        addNotification.showAndWait();
+
+        updateObservableAttendanceList(fitClass);
+        attendanceDisplay.setItems(observableAttendanceList);
+
+    }
+
+    @FXML
+    public void onAttendGuestClick() {
+
+        String alertContent = getAttendMemberAlertContent();
+        if (!alertContent.isEmpty()) {
+            Alert errorMessage = new Alert(Alert.AlertType.ERROR);
+            errorMessage.setTitle("Failed to Attend Guest:");
+            errorMessage.setContentText(alertContent);
+            errorMessage.showAndWait();
+            return;
+        }
+
+        String fName = attFirstNameField.getText();
+        String lName = attLastNameField.getText();
+        FitnessClass fitClass = classesDisplay.getSelectionModel().getSelectedItem();
+
+        Date dob = new Date();
+        dob.setDateFromPickerString(attDobPicker.getValue().toString());
+
+        Member member = new Member();
+        member.setProfile(new Profile(fName, lName, dob));
+
+        Alert errorMessage = new Alert(Alert.AlertType.ERROR);
+        errorMessage.setTitle("Failed to Attend Guest:");
+
+        if (memberList.find(member) == -1) {
+            errorMessage.setContentText("Member is not in the database");
+            errorMessage.showAndWait();
+            return;
+        }
+        member = memberList.getMembers()[memberList.find(member)];
+        if (member.isExpired()) {
+            errorMessage.setContentText("Membership expired on " + member.getExpire() + ".");
+            errorMessage.showAndWait();
+            return;
+        }
+        if (member.getClass().equals(Basic.class)) {
+            errorMessage.setContentText("Basic members don't have guest privileges.");
+            errorMessage.showAndWait();
+            return;
+        }
+
+        // 2 scenarios: premium member and family member
+
+        if (member.getClass().equals(Family.class)) {
+            if (((Family) member).hasGuest()) {
+                Member guest = new Family(new Profile(fName + " (Guest)", lName, dob), member.getHomeStudio());
+                fitClass.getMembers().add(guest);
+                ((Family) member).setGuest(false);
+                memberList.getMembers()[memberList.find(member)] = member;
+            }
+            else {
+                errorMessage.setContentText("Guest pass not available.");
+                errorMessage.showAndWait();
+                return;
+            }
+        }
+        if (member.getClass().equals(Premium.class)) {
+            if ((((Premium) member).getGuestPass()) > 0) {
+
+                int guestNum = -(((Premium) member).getGuestPass()) + 4;
+                Member guest = new Premium(
+                    new Profile(fName + " (Guest " + guestNum + "/3)", lName, dob), member.getHomeStudio()
+                );
+                fitClass.getMembers().add(guest);
+                ((Premium) member).setGuestPass(((Premium) member).getGuestPass() - 1);
+                memberList.getMembers()[memberList.find(member)] = member;
+            }
+            else {
+                errorMessage.setContentText("Guest pass not available.");
+                errorMessage.showAndWait();
+                return;
+            }
+        }
+
+        Alert addNotification = new Alert(Alert.AlertType.INFORMATION);
+        addNotification.setTitle("Guest Attendance Recorded:");
+        addNotification.setContentText("Guest of " +
+                member.getProfile().getFname() + " " +
+                member.getProfile().getLname() +
+                " added to " + fitClass.toString()
+        );
+        addNotification.showAndWait();
+
+        updateObservableMemberList();
+        memberDisplay.setItems(observableMemberList);
+        updateObservableAttendanceList(fitClass);
+        attendanceDisplay.setItems(observableAttendanceList);
+
+    }
+
     private String getAddMemberAlertContent() {
 
         String alertContent = "";
@@ -174,6 +447,25 @@ public class StudioManagerController {
         }
         if (typeBox.getValue() == null) {
             alertContent += "\nMembership type field is empty.";
+        }
+        return alertContent;
+
+    }
+
+    private String getAttendMemberAlertContent() {
+
+        String alertContent = "";
+        if (attFirstNameField.getText() == null || attFirstNameField.getText().trim().isEmpty()) {
+            alertContent += "\nFirst name field is empty.";
+        }
+        if (attLastNameField.getText() == null || attLastNameField.getText().trim().isEmpty()) {
+            alertContent += "\nLast name field is empty.";
+        }
+        if (attDobPicker.getValue() == null) {
+            alertContent += "\nDOB field is empty.";
+        }
+        if (classesDisplay.getSelectionModel().getSelectedItem() == null) {
+            alertContent += "\nNo class has been selected";
         }
         return alertContent;
 
@@ -292,6 +584,17 @@ public class StudioManagerController {
 
     }
 
+    private void initializeSchedule() {
+
+        schedule = new Schedule();
+        schedule.load(new File("src/classSchedule.txt"));
+
+        observableClassList = FXCollections.observableArrayList();
+        observableAttendanceList = FXCollections.observableArrayList();
+        updateObservableClassList();
+
+    }
+
     /**
      * Clears the current observableMemberList.
      * Copies data from memberList to observableMemberList.
@@ -303,6 +606,40 @@ public class StudioManagerController {
         for (int i = 0; i < memberList.getSize(); i++) {
             observableMemberList.add(memberList.getMembers()[i]);
         }
+
+    }
+
+    private void updateObservableClassList() {
+
+        observableClassList.clear();
+        for (int i = 0; i < schedule.getNumClasses(); i++) {
+            observableClassList.add(schedule.getClasses()[i]);
+        }
+
+    }
+
+    private void updateObservableAttendanceList(FitnessClass fitClass) {
+
+        observableAttendanceList.clear();
+        MemberList attendance = schedule.getClasses()[schedule.find(fitClass)].getMembers();
+        for (int i = 0; i < attendance.getSize(); i++) {
+            observableAttendanceList.add(attendance.getMembers()[i]);
+        }
+
+    }
+
+    @FXML
+    public void displaySelectedAttendance(MouseEvent mouseEvent) {
+
+        FitnessClass fitClass;
+        try {
+            fitClass = classesDisplay.getSelectionModel().getSelectedItem();
+        }
+        catch (NullPointerException ignored) {
+            return;
+        }
+        updateObservableAttendanceList(fitClass);
+        attendanceDisplay.setItems(observableAttendanceList);
 
     }
 
@@ -324,6 +661,25 @@ public class StudioManagerController {
         createCellValueFactory(infoColumn, Member::getInfo);
         createCellValueFactory(dueColumn, member -> String.valueOf(member.bill()));
         dueColumn.setVisible(false);
+
+    }
+
+    private void initializeClassesDisplay() {
+
+        classesDisplay.setItems(observableClassList);
+        createCellValueFactory(classInfoColumn, fitnessClass -> fitnessClass.getClassInfo().toString());
+        createCellValueFactory(instructorColumn, fitnessClass -> fitnessClass.getInstructor().toString());
+        createCellValueFactory(attStudioColumn, fitnessClass -> fitnessClass.getStudio().toString());
+        createCellValueFactory(timeColumn, fitnessClass -> fitnessClass.getTime().toString());
+
+    }
+
+    private void initializeAttendanceDisplay() {
+
+        attendanceDisplay.setItems(observableAttendanceList);
+        createCellValueFactory(attFirstNameColumn, member -> member.getProfile().getFname());
+        createCellValueFactory(attLastNameColumn, member -> member.getProfile().getLname());
+        createCellValueFactory(attDobColumn, member -> member.getProfile().getDob().toString());
 
     }
 
