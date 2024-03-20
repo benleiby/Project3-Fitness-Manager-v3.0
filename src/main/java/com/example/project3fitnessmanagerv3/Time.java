@@ -33,4 +33,9 @@ public enum Time {
     public int getMinute() {
         return MINUTE;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%02d:%02d", HOUR, MINUTE);
+    }
 }

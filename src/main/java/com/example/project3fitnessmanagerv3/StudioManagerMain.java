@@ -16,6 +16,7 @@ public class StudioManagerMain extends Application {
 
         stage.setTitle("Fitness Club Manager");
         stage.setScene(scene);
+        stage.setFullScreen(true);
         stage.setResizable(false);
         stage.show();
 
