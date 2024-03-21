@@ -11,6 +11,11 @@ import javafx.util.Callback;
 
 import java.io.File;
 
+/**
+ * Controller class for the Studio Manager application
+ * @author Benjamin Leiby
+ * @author Matteus Coste
+ */
 public class StudioManagerController {
 
     // UI Components
@@ -97,6 +102,11 @@ public class StudioManagerController {
     private ObservableList<FitnessClass> observableClassList;
     private ObservableList<Member> observableAttendanceList;
 
+
+
+    /**
+     * Initializes the controller
+     */
     @FXML
     public void initialize() {
 
@@ -116,6 +126,10 @@ public class StudioManagerController {
 
     }
 
+    /**
+     * Removes the selected member from the member list
+     * @param event
+     */
     @FXML
     public void onRemoveButtonClick(ActionEvent event) {
 
@@ -144,6 +158,12 @@ public class StudioManagerController {
 
     }
 
+    /**
+     * Handles the event when the "Remove Attendance" button is clicked.
+     * It removes the selected member from the attendance list of the selected fitness class.
+     * If the member is a family or premium member, it adjusts the main member's guest status or guest pass count accordingly.
+     * Displays a confirmation dialog before removing the member.
+     */
     @FXML
     public void onRemoveAttendanceClick() {
 
@@ -205,6 +225,10 @@ public class StudioManagerController {
 
     }
 
+    /**
+     * Clears the input fields for adding a new member
+     * @param event
+     */
     @FXML
     public void clearInput(ActionEvent event) {
 
@@ -216,6 +240,10 @@ public class StudioManagerController {
 
     }
 
+    /**
+     * Handles the event when the "Add Member" button is clicked
+     * @param event
+     */
     @FXML
     public void attClearInput(ActionEvent event) {
 
@@ -225,6 +253,13 @@ public class StudioManagerController {
 
     }
 
+    /**
+     * Handles the event when the "Add" button is clicked to create a new member.
+     * Validates the input fields and displays an error message if any field is empty or if the member is under 18 years old.
+     * Creates a new member with the provided details and adds them to the member database.
+     * Displays a success message upon successful addition.
+     * @param event
+     */
     @FXML
     public void onAddButtonClick(ActionEvent event) {
 
@@ -265,6 +300,10 @@ public class StudioManagerController {
 
     }
 
+    /**
+     * Generates alert content detailing which fields are empty when adding a member.
+     * @return
+     */
     @FXML
     public void onAttendButtonClick(ActionEvent event) {
 
@@ -339,6 +378,10 @@ public class StudioManagerController {
 
     }
 
+    /**
+     * Manages guest attendance for a fitness class, ensuring eligibility and updating member and attendance
+     * displays with appropriate notifications. Handles validation checks for guest membership status and available guest passes.
+     * */
     @FXML
     public void onAttendGuestClick() {
 
@@ -430,6 +473,12 @@ public class StudioManagerController {
 
     }
 
+    /**
+     * Constructs the content for an alert message indicating any missing or incomplete information needed to add a new member.
+     * It checks if the first name, last name, date of birth, studio selection, and membership type fields are empty,
+     * appending corresponding messages to the alert content.
+     * @return the content for the alert message, highlighting any missing or incomplete information.
+     */
     private String getAddMemberAlertContent() {
 
         String alertContent = "";
@@ -452,6 +501,13 @@ public class StudioManagerController {
 
     }
 
+    /**
+     * Constructs the content for an alert message indicating any missing or incomplete information
+     * needed to attend a class.
+     * It checks if the first name, last name, date of birth, and class selection fields are empty, appending corresponding
+     * messages to the alert content.
+     * @return the content for the alert message, highlighting any missing or incomplete information
+     */
     private String getAttendMemberAlertContent() {
 
         String alertContent = "";
@@ -471,6 +527,11 @@ public class StudioManagerController {
 
     }
 
+    /**
+     * Displays an error alert indicating that a member with the provided profile
+     * already exists in the database.
+     * @param profile
+     */
     private void duplicateMemberError(Profile profile) {
 
         Alert error = new Alert(Alert.AlertType.ERROR);
@@ -484,6 +545,12 @@ public class StudioManagerController {
 
     }
 
+    /**
+     * Adds a basic member to the member list based on the provided profile and home studio.
+     * If the addition fails due to a duplicate member, displays an error alert.
+     * @param profile
+     * @param homeStudio
+     */
     private void addBasic(Profile profile, Location homeStudio) {
 
         if (!memberList.add(new Basic(profile, homeStudio))) {
@@ -505,6 +572,12 @@ public class StudioManagerController {
 
     }
 
+    /**
+     * Adds a family member to the member list based on the provided profile and home studio.
+     * If the addition fails due to a duplicate member, displays an error alert.
+     * @param profile
+     * @param homeStudio
+     */
     private void addFamily(Profile profile, Location homeStudio) {
 
         if (!memberList.add(new Family(profile, homeStudio))) {
@@ -526,6 +599,12 @@ public class StudioManagerController {
 
     }
 
+    /**
+     * Adds a premium member to the member list based on the provided profile and home studio.
+     * If the addition fails due to a duplicate member, displays an error alert.
+     * @param profile
+     * @param homeStudio
+     */
     private void addPremium(Profile profile, Location homeStudio) {
 
         if (!memberList.add(new Premium(profile, homeStudio))) {
@@ -547,6 +626,10 @@ public class StudioManagerController {
 
     }
 
+    /**
+     * Sorts the member display table by profile
+     * @param event
+     */
     @FXML
     public void sortDisplayByProfile(ActionEvent event) {
 
@@ -556,6 +639,10 @@ public class StudioManagerController {
 
     }
 
+    /**
+     * Sorts the member display table by county
+     * @param event
+     */
     @FXML
     public void sortDisplayByCounty(ActionEvent event) {
 
@@ -565,6 +652,10 @@ public class StudioManagerController {
 
     }
 
+    /**
+     * Toggle the visibility of the fee column
+     * @param event
+     */
     @FXML
     public void toggleFees(ActionEvent event) {
         dueColumn.setVisible(!hideFeesCheckBox.isSelected());
@@ -584,6 +675,10 @@ public class StudioManagerController {
 
     }
 
+    /**
+     * Initializes the schedule by loading class schedule data from a file and populating the observable class list.
+     * The method loads the schedule from a file, creates observable lists for both classes and attendance, and updates the observable class list.
+     */
     private void initializeSchedule() {
 
         schedule = new Schedule();
@@ -609,6 +704,10 @@ public class StudioManagerController {
 
     }
 
+    /**
+     * Updates the observable class list with the classes from the schedule.
+     * The method clears the current observable class list and populates it with classes from the schedule.
+     */
     private void updateObservableClassList() {
 
         observableClassList.clear();
@@ -618,6 +717,11 @@ public class StudioManagerController {
 
     }
 
+    /**
+     * Updates the observable attendance list for a given fitness class.
+     * Clears the current observable attendance list and populates it with members attending the specified fitness class.
+     * @param fitClass
+     */
     private void updateObservableAttendanceList(FitnessClass fitClass) {
 
         observableAttendanceList.clear();
@@ -628,6 +732,12 @@ public class StudioManagerController {
 
     }
 
+    /**
+     * Displays the attendance for the selected fitness class.
+     * Retrieves the selected fitness class from the classes display, updates the observable attendance list accordingly,
+     * and sets the attendance display with the updated list.
+     * @param mouseEvent
+     */
     @FXML
     public void displaySelectedAttendance(MouseEvent mouseEvent) {
 
@@ -664,6 +774,10 @@ public class StudioManagerController {
 
     }
 
+    /**
+     * Initializes the classes display by setting its items to the observable class list and creating cell value factories
+     * for various columns such as class info, instructor, studio, and time.
+     */
     private void initializeClassesDisplay() {
 
         classesDisplay.setItems(observableClassList);
@@ -674,6 +788,10 @@ public class StudioManagerController {
 
     }
 
+    /**
+     * Initializes the attendance display by setting its items to the observable attendance list and creating cell value factories
+     * for columns representing the first name, last name, and date of birth of the members.
+     */
     private void initializeAttendanceDisplay() {
 
         attendanceDisplay.setItems(observableAttendanceList);

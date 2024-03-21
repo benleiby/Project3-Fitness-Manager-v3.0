@@ -34,6 +34,10 @@ public enum Time {
         return MINUTE;
     }
 
+    /**
+     * toString method for the hour and minute of a date
+     * @return the date formatted as a string
+     */
     @Override
     public String toString() {
         return String.format("%02d:%02d", HOUR, MINUTE);
